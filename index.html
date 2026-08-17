@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Budget Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-active-section="budget">
+  <header class="app-header">
+    <div class="app-header-text">
+      <h1>Budget Tracker</h1>
+      <p class="app-subtitle">Track one-off expenses and recurring contributions.</p>
+    </div>
+    <button id="dark-mode-toggle" type="button" aria-pressed="false" title="Toggle dark mode">
+      <span id="dark-mode-icon" aria-hidden="true">🌙</span>
+    </button>
+  </header>
+
+  <main>
+    <nav class="section-nav" id="section-nav" role="tablist" aria-label="Budget section">
+      <button type="button" id="tab-budget" role="tab" aria-selected="true" data-section="budget" class="active">Budget</button>
+      <button type="button" id="tab-review" role="tab" aria-selected="false" data-section="review">Review</button>
+    </nav>
+
+    <section id="budget-section" class="tab-panel">
+      <div class="card">
+        <h2>Add Entry</h2>
+        <form id="expense-form">
+          <div class="field-row">
+            <div class="field">
+              <label for="expense-amount">Amount</label>
+              <div class="amount-input-wrap">
+                <span>$</span>
+                <input type="number" id="expense-amount" min="0.01" step="0.01" placeholder="0.00" inputmode="decimal" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="expense-category">Category</label>
+              <select id="expense-category"></select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="expense-date">Date</label>
+              <input type="date" id="expense-date" required>
+            </div>
+            <div class="field">
+              <label for="expense-note">Description (optional)</label>
+              <input type="text" id="expense-note" placeholder="e.g. groceries">
+            </div>
+          </div>
+          <div class="field-row checkbox-row">
+            <label class="checkbox-field" for="expense-recurring-checkbox">
+              <input type="checkbox" id="expense-recurring-checkbox">
+              Make this recurring
+            </label>
+          </div>
+          <div class="field-row" id="recurring-frequency-row" hidden>
+            <div class="field">
+              <label for="expense-recurring-frequency">Frequency</label>
+              <select id="expense-recurring-frequency"></select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" id="expense-submit-btn" class="btn-primary">Add Entry</button>
+            <button type="button" id="expense-cancel-btn" class="btn-secondary" hidden>Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="total-row">
+          <span>Total</span>
+          <span id="expense-total">$0.00</span>
+        </div>
+        <ul id="expense-list" class="entry-list"></ul>
+        <div id="expense-empty" class="list-empty-state">
+          <div class="list-empty-icon" aria-hidden="true">📭</div>
+          <p class="empty-state">No entries yet.</p>
+        </div>
+      </div>
+
+      <div class="card manage-recurring-trigger">
+        <button type="button" id="manage-recurring-btn" class="btn-secondary manage-recurring-btn">Manage Recurring</button>
+      </div>
+    </section>
+
+    <section id="review-section" class="tab-panel" hidden>
+      <div class="review-toggle-row">
+        <div class="segmented-control" id="review-period-toggle" role="tablist" aria-label="Review period">
+          <button type="button" data-period="week" class="active" role="tab" aria-selected="true">Week</button>
+          <button type="button" data-period="month" role="tab" aria-selected="false">Month</button>
+          <button type="button" data-period="quarter" role="tab" aria-selected="false">Quarter</button>
+          <button type="button" data-period="year" role="tab" aria-selected="false">Year</button>
+        </div>
+      </div>
+      <div id="review-content"></div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="recurring-modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="recurring-modal-title">
+      <div class="modal-header">
+        <h2 id="recurring-modal-title">Manage Recurring</h2>
+        <button type="button" id="recurring-modal-close" class="modal-close" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <ul id="recurring-list" class="entry-list"></ul>
+        <p id="recurring-empty" class="empty-state">No recurring items yet.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
